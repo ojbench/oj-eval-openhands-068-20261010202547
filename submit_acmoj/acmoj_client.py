@@ -37,7 +37,7 @@ class ACMOJClient:
         self.api_base = "http://127.0.0.1:18490/OnlineJudge/api/v1"
         self.headers = {
             "Authorization": f"Bearer {access_token}",
-            "Content-Type": "application/x-www-form-urlencoded",
+            "Content-Type": "application/json",
             "User-Agent": "ACMOJ-Python-Client/2.2"
         }
 
@@ -89,7 +89,7 @@ class ACMOJClient:
 
     def submit_git(self, problem_id: int, git_url: str) -> Optional[Dict]:
         data = {"language": "git", "code": git_url}
-        result = self._make_request("POST", f"/problem/{problem_id}/submit", data=data)
+        result = self._make_request("POST", f"/problem/{problem_id}/submit", data=json.dumps(data))
         if result and 'id' in result:
             self._save_submission_id(result['id'])
 
